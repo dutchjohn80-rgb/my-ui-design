@@ -170,10 +170,23 @@ const year = new Date().getFullYear();
     mask-image: radial-gradient(ellipse 70% 80% at 70% 40%, #000 20%, transparent 75%);
     -webkit-mask-image: radial-gradient(ellipse 70% 80% at 70% 40%, #000 20%, transparent 75%);
   }
-  .hero-grid { position: relative; display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center; padding-top: 56px; padding-bottom: 72px; }
+  .hero-grid { position: relative; display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center; padding-top: 56px; padding-bottom: 32px; }
   .hero-grid h1 { font-size: clamp(40px, 5.6vw, 72px); font-weight: 800; }
   .hero-copy { display: flex; flex-direction: column; gap: 24px; }
-  @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } }
+  .eyebrow {
+    margin: 0; font: 500 14px/1.5 var(--mono); letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent-text);
+  }
+  .stats-row {
+    position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding-bottom: 24px;
+  }
+  .stat {
+    display: flex; flex-direction: column; gap: 6px; padding: 18px 20px; border: 1px solid var(--line); background: rgba(255,255,255,0.3);
+    border-radius: 18px; backdrop-filter: blur(4px);
+  }
+  .stat strong { font-size: clamp(20px, 2vw, 30px); font-family: "Bricolage Grotesque", sans-serif; }
+  .stat span { color: var(--muted); font-size: 15px; }
+  @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } .stats-row { grid-template-columns: 1fr; } }
 
   /* Buttons and chips */
   .actions { display: flex; flex-wrap: wrap; gap: 12px; }
@@ -190,9 +203,10 @@ const year = new Date().getFullYear();
   .tile {
     grid-column: span 2; background: var(--surface); border: 1px solid var(--line);
     border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 14px;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none; color: inherit;
   }
-  a.tile:hover, .tile:hover { border-color: var(--accent-text); }
+  a.tile:hover, .tile:hover { border-color: var(--accent-text); transform: translateY(-2px); box-shadow: 0 14px 30px rgba(79, 70, 229, 0.08); }
   .bento:not(.three) .tile:nth-child(1) { grid-column: span 4; }
   .bento:not(.three) .tile:nth-child(6), .bento:not(.three) .tile:nth-child(7) { grid-column: span 3; }
   .bento:not(.three) .tile:nth-child(1) { background: var(--accent); border-color: transparent; color: #fff; }
