@@ -1,0 +1,90 @@
+---
+const { title = "Scroll and watch it move." } = Astro.props;
+---
+
+<section class="road" aria-labelledby="road-title">
+  <h2 id="road-title">{title}</h2>
+  <div class="asphalt"></div>
+  <div class="markings"></div>
+  <div class="track">
+    <div class="car">
+      <svg viewBox="0 0 170 80" role="img" aria-label="A vehicle driving along a road">
+        <rect x="6" y="14" width="78" height="40" rx="6" fill="#FFFFFF"></rect>
+        <path d="M84 26h38l22 14v14H84z" fill="#F5A524"></path>
+        <path d="M96 31h22l14 10H96z" fill="#DCE6F2"></path>
+        <rect x="6" y="50" width="146" height="10" rx="4" fill="#F5A524"></rect>
+        <g class="wheel">
+          <circle cx="40" cy="62" r="13" fill="#12202F" stroke="#F2F5F9" stroke-width="3"></circle>
+          <path d="M40 52v20M30 62h20" stroke="#F2F5F9" stroke-width="2"></path>
+        </g>
+        <g class="wheel">
+          <circle cx="124" cy="62" r="13" fill="#12202F" stroke="#F2F5F9" stroke-width="3"></circle>
+          <path d="M124 52v20M114 62h20" stroke="#F2F5F9" stroke-width="2"></path>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Safari and Firefox do not support CSS scroll-driven animation yet,
+  // so we work out the scroll position ourselves there.
+  const road = document.querySelector<HTMLElement>(".road");
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const native = CSS.supports("animation-timeline: view()");
+
+  if (road && !reduced && !native) {
+    const update = () => {
+      const r = road.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const raw = (vh - r.top) / (vh + r.height);
+      const p = Math.min(1, Math.max(0, (raw - 0.05) / 0.9));
+      road.style.setProperty("--p", p.toFixed(4));
+    };
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  }
+</script>
+
+<style>
+  .road {
+    position: relative; height: 320px; background: var(--panel);
+    overflow: hidden; view-timeline-name: --road;
+  }
+  .road h2 {
+    position: absolute; top: 52px; left: 0; right: 0; padding: 0 24px;
+    text-align: center; color: #fff; font-size: clamp(24px, 3.4vw, 36px); font-weight: 600;
+  }
+  .asphalt { position: absolute; left: 0; right: 0; bottom: 0; height: 34px; background: var(--asphalt); }
+  .markings {
+    position: absolute; left: 0; right: 0; bottom: 15px; height: 4px;
+    background: repeating-linear-gradient(90deg, #e8eef6 0 28px, transparent 28px 60px);
+  }
+  .track {
+    position: absolute; left: 0; right: 0; bottom: 34px; height: 80px;
+    container-type: inline-size;
+  }
+  .car { width: 170px; transform: translateX(calc(var(--p, 0.5) * (100cqw - 178px) + 8px)); }
+  .wheel {
+    transform-box: fill-box; transform-origin: center;
+    transform: rotate(calc(var(--p, 0.5) * 1800deg));
+  }
+  @keyframes drive {
+    from { transform: translateX(8px); }
+    to { transform: translateX(calc(100cqw - 170px)); }
+  }
+  @keyframes spin {
+    from { transform: rotate(0); }
+    to { transform: rotate(1800deg); }
+  }
+  @supports (animation-timeline: view()) {
+    .car { animation: drive linear both; animation-timeline: --road; animation-range: cover 5% cover 95%; }
+    .wheel { animation: spin linear both; animation-timeline: --road; animation-range: cover 5% cover 95%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .car, .wheel { animation: none; }
+    .car { transform: translateX(calc(50cqw - 85px)); }
+    .wheel { transform: none; }
+  }
+</style>

@@ -1,0 +1,14 @@
+---
+const { file, code } = Astro.props;
+---
+
+<figure class="code">
+  <figcaption>{file}</figcaption>
+  <pre><code set:html={code} /></pre>
+</figure>
+
+<style>
+  .code { margin: 0; background: var(--code); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
+  figcaption { padding: 12px 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); font: 500 13px "JetBrains Mono", ui-monospace, monospace; color: #a3b1c4; }
+  pre { margin: 0; padding: 20px 22px; overflow-x: auto; font: 400 15px/1.7 "JetBrains Mono", ui-monospace, monospace; color: #e8eef6; }
+</style>

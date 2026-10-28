@@ -1,0 +1,49 @@
+---
+import Icon from "./Icon.astro";
+const nodes = [
+  { x: 88, y: 70, icon: "phone", a: "Phone app", b: "Flutter" },
+  { x: 432, y: 70, icon: "globe", a: "Web dashboard", b: "React" },
+  { x: 88, y: 370, icon: "database", a: "Database", b: "MySQL, PostgreSQL" },
+  { x: 432, y: 370, icon: "network", a: "Office network", b: "LAN, Cisco" },
+];
+const api = { x: 260, y: 220 };
+---
+
+<figure class="map">
+  <svg viewBox="0 0 520 440" role="img" aria-label="Diagram: a phone app, a web dashboard, a database and an office network all connect to one server and API.">
+    {nodes.map((n) => <line class="flow" x1={n.x} y1={n.y} x2={api.x} y2={api.y} />)}
+    <rect class="pulse" x={api.x - 78} y={api.y - 30} width="156" height="60" rx="16" />
+    <g>
+      <rect class="node main" x={api.x - 78} y={api.y - 30} width="156" height="60" rx="16" />
+      <Icon name="server" size={24} x={api.x - 64} y={api.y - 12} />
+      <text class="t1 on" x={api.x - 30} y={api.y - 2}>Server and API</text>
+      <text class="t2 on" x={api.x - 30} y={api.y + 15}>Laravel, Django</text>
+    </g>
+    {nodes.map((n) => (
+      <g>
+        <rect class="node" x={n.x - 78} y={n.y - 28} width="156" height="56" rx="14" />
+        <Icon name={n.icon} size={22} x={n.x - 64} y={n.y - 11} />
+        <text class="t1" x={n.x - 34} y={n.y - 2}>{n.a}</text>
+        <text class="t2" x={n.x - 34} y={n.y + 15}>{n.b}</text>
+      </g>
+    ))}
+  </svg>
+  <figcaption>Every system I build has these parts. I design all of them to work together.</figcaption>
+</figure>
+
+<style>
+  .map { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 28px; padding: 20px 20px 24px; }
+  svg { width: 100%; height: auto; display: block; color: var(--accent-text); }
+  figcaption { margin-top: 8px; padding: 0 8px; color: var(--muted); font-size: 15px; }
+  .flow { stroke: var(--accent-text); stroke-width: 2; stroke-dasharray: 6 8; opacity: 0.75; animation: flow 1.4s linear infinite; }
+  .node { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; }
+  .node.main { fill: var(--accent); stroke: none; }
+  .t1 { font: 700 13px "Figtree", sans-serif; fill: var(--ink); }
+  .t2 { font: 400 11.5px "Figtree", sans-serif; fill: var(--muted); }
+  .on { fill: #fff; }
+  :global(.map .main ~ .icon) { color: #fff; }
+  .pulse { fill: none; stroke: var(--accent-text); stroke-width: 2; transform-box: fill-box; transform-origin: center; animation: pulse 2.4s ease-out infinite; }
+  @keyframes flow { to { stroke-dashoffset: -28; } }
+  @keyframes pulse { from { opacity: 0.7; transform: scale(1); } to { opacity: 0; transform: scale(1.35); } }
+  @media (prefers-reduced-motion: reduce) { .flow, .pulse { animation: none; } .pulse { opacity: 0; } }
+</style>

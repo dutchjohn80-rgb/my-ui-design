@@ -1,0 +1,62 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Cta from "../components/Cta.astro";
+import { experience, education, skills, languages } from "../data/site";
+---
+
+<Layout title="Experience" description="Work experience, education and skills of John Dutch.">
+  <section class="wrap page-head">
+    <h1>Experience</h1>
+    <p class="lead">Where I have worked, what I studied and the tools I use.</p>
+  </section>
+
+  <section class="wrap section" style="padding-top:0">
+    <h2>Work</h2>
+    <div>
+      {
+        experience.map((e) => (
+          <div class="row">
+            <p class="when">{e.when}</p>
+            <div class="body">
+              <h3>{e.role}</h3>
+              <p>{e.org}</p>
+              <ul>{e.points.map((p) => <li>{p}</li>)}</ul>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <h2>Education</h2>
+    <div>
+      {
+        education.map((e) => (
+          <div class="row">
+            <p class="when">{e.when}</p>
+            <div class="body"><h3>{e.title}</h3><p>{e.school}</p></div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <h2>Skills</h2>
+    <div>
+      {
+        skills.map((s) => (
+          <div class="row">
+            <h3>{s.group}</h3>
+            <div class="chips">{s.text.split(", ").map((t) => <span class="chip">{t}</span>)}</div>
+          </div>
+        ))
+      }
+      <div class="row"><h3>Spoken languages</h3><div class="body"><p>{languages}</p></div></div>
+    </div>
+    <p class="lead">References are available on request.</p>
+  </section>
+
+  <Cta heading="Want me on your team or project?" />
+</Layout>

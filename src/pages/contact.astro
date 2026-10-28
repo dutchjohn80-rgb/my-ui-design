@@ -1,0 +1,44 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Icon from "../components/Icon.astro";
+import { site } from "../data/site";
+---
+
+<Layout title="Contact" description="Contact John Dutch about web, mobile, network or training work in Arusha.">
+  <section class="wrap page-head">
+    <h1>Let’s talk about your project.</h1>
+    <p class="lead">The quickest way to reach me is by email or phone. I’m based in Arusha.</p>
+  </section>
+
+  <section class="wrap section" style="padding-top:0">
+    <div class="contact-grid">
+      <a class="tile" href={`mailto:${site.email}`}>
+        <span class="ico"><Icon name="mail" /></span>
+        <span class="label">Email</span><span class="value">{site.email}</span>
+      </a>
+      <a class="tile" href={`tel:${site.phoneHref}`}>
+        <span class="ico"><Icon name="phone" /></span>
+        <span class="label">Phone</span><span class="value">{site.phone}</span>
+      </a>
+      <a class="tile" href={site.github}>
+        <span class="ico"><Icon name="code" /></span>
+        <span class="label">GitHub</span><span class="value">{site.githubLabel}</span>
+      </a>
+      <div class="tile">
+        <span class="ico"><Icon name="pin" /></span>
+        <span class="label">Location</span><span class="value">{site.location}</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <h3>What to include</h3>
+      <div class="body">
+        <ul>
+          <li>What you want built, fixed or taught</li>
+          <li>Who will use it</li>
+          <li>When you need it</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,51 @@
+---
+import Layout from "../layouts/Layout.astro";
+import CodeWindow from "../components/CodeWindow.astro";
+import Cta from "../components/Cta.astro";
+import { site } from "../data/site";
+
+const code = `<span class="k">const</span> <span class="p">john</span> = {
+  <span class="p">role</span>: <span class="s">"Full-stack developer and IT trainer"</span>,
+  <span class="p">location</span>: <span class="s">"Arusha, Tanzania"</span>,
+  <span class="p">builds</span>: [<span class="s">"websites"</span>, <span class="s">"web systems"</span>, <span class="s">"mobile apps"</span>, <span class="s">"networks"</span>],
+  <span class="p">stack</span>: [<span class="s">"Laravel"</span>, <span class="s">"Django"</span>, <span class="s">"React"</span>, <span class="s">"Astro"</span>, <span class="s">"Flutter"</span>],
+  <span class="p">speaks</span>: [<span class="s">"English"</span>, <span class="s">"Kiswahili"</span>],
+  <span class="p">contact</span>: <span class="s">"${site.email}"</span>,
+};`;
+---
+
+<Layout title="About" description="About John Dutch, full-stack developer and IT trainer in Arusha.">
+  <section class="wrap page-head">
+    <h1>Developer, network technician and teacher.</h1>
+    <p class="lead">I work from Arusha, Tanzania.</p>
+  </section>
+
+  <section class="wrap section" style="padding-top:0">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;align-items:start">
+      <div class="prose">
+        <p>
+          I’m a full-stack developer and IT tutor. I studied Information
+          Technology at Arusha Technical College and worked in IT support at
+          hospitals and health centres in Arusha. There I looked after networks,
+          computers and health information systems such as GoT-HOMIS and DHIS2.
+        </p>
+        <p>
+          Today I teach programming, web development and network security at
+          Arusha Computing Centre, and I take on web, mobile and system
+          projects. I mostly work with Laravel, Django, React, Astro and Flutter.
+        </p>
+      </div>
+      <CodeWindow file="about.ts" code={code} />
+    </div>
+
+    <div>
+      <div class="row"><h3>Based in</h3><div class="body"><p>{site.location}</p></div></div>
+      <div class="row"><h3>Education</h3><div class="body"><p>Bachelor of Information Technology, Arusha Technical College (2022 to 2025)</p></div></div>
+      <div class="row"><h3>Currently</h3><div class="body"><p>IT Tutor at Arusha Computing Centre</p></div></div>
+      <div class="row"><h3>Languages</h3><div class="body"><p>English and Kiswahili, both fluent</p></div></div>
+      <div class="row"><h3>Code</h3><div class="body"><p><a href={site.github}>{site.githubLabel}</a></p></div></div>
+    </div>
+  </section>
+
+  <Cta heading="Want to work together?" />
+</Layout>

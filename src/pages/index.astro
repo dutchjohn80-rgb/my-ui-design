@@ -1,0 +1,88 @@
+---
+import Layout from "../layouts/Layout.astro";
+import RoadCar from "../components/RoadCar.astro";
+import SystemMap from "../components/SystemMap.astro";
+import ProjectArt from "../components/ProjectArt.astro";
+import Icon from "../components/Icon.astro";
+import Cta from "../components/Cta.astro";
+import { services, projects, tools, process } from "../data/site";
+
+const topServices = services.slice(0, 3);
+const featured = projects[0];
+---
+
+<Layout title="Full-stack developer and IT trainer in Arusha">
+  <div class="hero-wrap">
+    <section class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1>I build web systems, mobile apps and networks that work.</h1>
+        <p class="lead">
+          I’m John Dutch, a full-stack developer and IT trainer in Arusha. I help
+          businesses and organisations build reliable software and keep their
+          networks running.
+        </p>
+        <div class="actions">
+          <a class="btn primary" href="/services">See my services</a>
+          <a class="btn outline" href="/contact">Contact me</a>
+        </div>
+      </div>
+      <SystemMap />
+    </section>
+  </div>
+
+  <section class="wrap" aria-label="Tools I work with">
+    <div class="chips">{tools.map((t) => <span class="chip">{t}</span>)}</div>
+  </section>
+
+  <section class="wrap section">
+    <div class="head">
+      <h2>What I do</h2>
+      <a class="more" href="/services">All services</a>
+    </div>
+    <div class="bento three">
+      {
+        topServices.map((s) => (
+          <div class="tile">
+            <span class="ico"><Icon name={s.icon} size={24} /></span>
+            <h3>{s.title}</h3>
+            <p>{s.summary}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <RoadCar title="One of my projects tracks vehicles in real time." />
+
+  <section class="wrap section">
+    <div class="head">
+      <h2>Featured project</h2>
+      <a class="more" href="/projects">All projects</a>
+    </div>
+    <div class="showcase" style="border-top:0;padding-top:0">
+      <div class="art"><ProjectArt kind={featured.kind} label={featured.title} /></div>
+      <div class="info">
+        <h3>{featured.title}</h3>
+        <p>{featured.summary}</p>
+        <p class="stack">{featured.stack}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <h2>How we would work together</h2>
+    <div class="steps">
+      {
+        process.map((p, i) => (
+          <div class="step">
+            <span class="num">{i + 1}</span>
+            <h3>{p.title}</h3>
+            <p>{p.text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <Cta />
+</Layout>

@@ -1,0 +1,33 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Icon from "../components/Icon.astro";
+import Cta from "../components/Cta.astro";
+import { services } from "../data/site";
+---
+
+<Layout title="Services" description="Web development, full-stack systems, mobile apps, networks and IT training in Arusha.">
+  <section class="wrap page-head">
+    <h1>Services</h1>
+    <p class="lead">
+      From a simple website to a system with an app, a dashboard and a network
+      behind it. Send me a message for a quote.
+    </p>
+  </section>
+
+  <section class="wrap section" style="padding-top:0">
+    <div class="bento">
+      {
+        services.map((s) => (
+          <div class="tile">
+            <span class="ico"><Icon name={s.icon} size={24} /></span>
+            <h3>{s.title}</h3>
+            <p>{s.summary}</p>
+            <ul>{s.items.map((i) => <li>{i}</li>)}</ul>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <Cta heading="Not sure which service you need?" />
+</Layout>

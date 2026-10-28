@@ -1,0 +1,36 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ProjectArt from "../components/ProjectArt.astro";
+import Cta from "../components/Cta.astro";
+import { projects, site } from "../data/site";
+---
+
+<Layout title="Projects" description="Selected web, mobile and health-system projects by John Dutch.">
+  <section class="wrap page-head">
+    <h1>Projects</h1>
+    <p class="lead">
+      A selection of systems I have built. More code is on
+      <a class="more" href={site.github}>GitHub</a>.
+    </p>
+  </section>
+
+  <section class="wrap section" style="padding-top:0">
+    <div>
+      {
+        projects.map((p) => (
+          <div class="showcase">
+            <div class="art"><ProjectArt kind={p.kind} label={p.title} /></div>
+            <div class="info">
+              <h3>{p.title}</h3>
+              <p>{p.summary}</p>
+              <p class="stack">{p.stack}</p>
+              {p.link && <a class="more" href={p.link}>View project</a>}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <Cta heading="Need something similar?" />
+</Layout>
