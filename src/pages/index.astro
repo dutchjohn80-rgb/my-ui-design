@@ -4,8 +4,27 @@ import ProjectArt from "../components/ProjectArt.astro";
 import Icon from "../components/Icon.astro";
 import { projects, site } from "../data/site";
 
-const featured = projects.slice(0, 3);
-const techBadges = ["Flutter", "Astro", "React", "Laravel"];
+const featured = [
+  { ...projects[0], sourceLinks: [{ label: "View Source Code", href: "https://github.com/dutchjohn80-rgb/public-transport-tracking" }] },
+  { ...projects[1], live: "https://vercel.app", sourceLinks: [
+    { label: "Web Repo", href: "https://github.com/dutchjohn80-rgb/inventory-web" },
+    { label: "API Repo", href: "https://github.com/dutchjohn80-rgb/inventory-api" },
+    { label: "Mobile Repo", href: "https://github.com/dutchjohn80-rgb/inventory-mobile" },
+  ] },
+  { ...projects[2], live: "https://vercel.app", sourceLinks: [{ label: "View Source Code", href: "https://github.com/dutchjohn80-rgb/Alaredefo-website" }] },
+  { title: "Personal portfolio platform", kind: "dash", summary: "A focused portfolio platform for sharing products, capabilities and a clear path to collaboration.", stack: "Astro, TypeScript, Tailwind CSS", live: "https://vercel.app", sourceLinks: [{ label: "View Source Code", href: "https://github.com/dutchjohn80-rgb/dutch-website" }] },
+  { title: "Healthcare management API & web ecosystem", kind: "table", summary: "A modular healthcare ecosystem for consistent clinical data capture and secure operational dashboards.", stack: "Laravel REST API, React (Vite)", sourceLinks: [
+    { label: "Web Source", href: "https://github.com/dutchjohn80-rgb/health-web" },
+    { label: "API Source", href: "https://github.com/dutchjohn80-rgb/Health-api" },
+  ] },
+];
+const techBadges = ["Flutter", "Astro", "React", "Laravel"]; 
+const otherRepositories = [
+  ["SafariGear Eco-Tourism", "https://github.com/dutchjohn80-rgb/SafariGear"],
+  ["Tour Site System", "https://github.com/dutchjohn80-rgb/tour-site-repo"],
+  ["Core Web Applications", "https://github.com/dutchjohn80-rgb/web-application"],
+  ["Current Portfolio UI Space", "https://github.com/dutchjohn80-rgb/my-ui-design"],
+];
 ---
 
 <Layout title="Mobile app developer portfolio in Arusha" description="A premium mobile app developer portfolio for John Dutch, building Flutter, React and full-stack digital products.">
@@ -59,10 +78,18 @@ const techBadges = ["Flutter", "Astro", "React", "Laravel"];
                 <article class:list={["project-card", index === 0 && "project-card-featured"]}>
                   <div class="project-visual"><ProjectArt kind={project.kind} label={project.title} /><span class="project-index">0{index + 1}</span></div>
                   <div class="project-meta"><div><h3>{project.title}</h3><p>{project.summary}</p></div><span class="project-arrow">↗</span></div>
-                  <div class="badge-row">{techBadges.slice(index, index + 3).map((badge) => <span>{badge}</span>)}</div>
+                  <div class="badge-row">{techBadges.slice(index % 2, (index % 2) + 3).map((badge) => <span>{badge}</span>)}</div>
+                  <div class="project-actions">
+                    {project.live && <a class="project-action project-action-primary" href={project.live} target="_blank" rel="noreferrer">Tap to Play Demo <span>↗</span></a>}
+                    {project.sourceLinks.map((link) => <a class="project-action" href={link.href} target="_blank" rel="noreferrer">{link.label} <span>↗</span></a>)}
+                  </div>
                 </article>
               ))}
             </div>
+            <details class="repository-drawer">
+              <summary>Other repositories <span>＋</span></summary>
+              <div class="repository-list">{otherRepositories.map(([label, href]) => <a href={href} target="_blank" rel="noreferrer"><span>{label}</span><span>↗</span></a>)}</div>
+            </details>
           </section>
 
           <section class="detail-section" id="about">
@@ -99,6 +126,13 @@ const techBadges = ["Flutter", "Astro", "React", "Laravel"];
             </div>
           </section>
 
+          <section class="pipeline-section" aria-labelledby="pipeline-title">
+            <div class="section-heading"><div><p class="section-kicker">HOW I WORK</p><h2 id="pipeline-title">Development pipeline.</h2></div><span class="pipeline-status">04 STEPS</span></div>
+            <div class="pipeline-list">
+              {[['01', 'Discovery & Strategy', 'Deep analysis of target business workflows, system architecture blueprints, and requirement gathering.'], ['02', 'Advanced UI/UX Prototyping', 'Translating conceptual ideas into clean, pixel-perfect modern dark/light system mockups inside Figma.'], ['03', 'Core Cross-Platform Development', 'Clean engineering of robust backends (Laravel/Django) and beautiful native frontends using Flutter, React, or Astro.'], ['04', 'Quality Enforcement & Deployment', 'Rigorous database integration checks, secure terminal configuration, and final hosting launch on platforms like Vercel or Railway.']].map(([number, title, text]) => <article class="pipeline-step"><span class="pipeline-number">{number}</span><div><h3>{title}</h3><p>{text}</p></div></article>)}
+            </div>
+          </section>
+
           <section class="detail-section" id="experience">
             <p class="section-kicker">03 / EXPERIENCE</p><h2>A career close to the real world.</h2>
             <div class="timeline">
@@ -116,9 +150,22 @@ const techBadges = ["Flutter", "Astro", "React", "Laravel"];
             <p class="section-kicker">LET&apos;S BUILD SOMETHING</p>
             <h2>Have a big idea?</h2>
             <p>Tell me where you want to go. I&apos;ll help you find the clearest path there.</p>
-            <a href={`mailto:${site.email}`} class="contact-link">Start a conversation <span>↗</span></a>
+            <button type="button" class="contact-link" data-open-contact>Start a conversation <span>↗</span></button>
           </section>
         </div>
+
+        <div class="contact-sheet-backdrop" data-contact-backdrop hidden></div>
+        <aside class="contact-sheet" data-contact-sheet aria-labelledby="contact-sheet-title" aria-hidden="true">
+          <div class="sheet-handle"></div>
+          <button class="sheet-close" type="button" aria-label="Close contact form" data-close-contact>×</button>
+          <p class="section-kicker">START A CONVERSATION</p><h2 id="contact-sheet-title">Let&apos;s build what&apos;s next.</h2><p class="sheet-copy">Share a few details and I&apos;ll get back to you with a clear next step.</p>
+          <form class="contact-form" data-contact-form>
+            <label>Full Name<input name="name" type="text" autocomplete="name" placeholder="Your name" required /></label>
+            <label>Email Address<input name="email" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
+            <label>Project Idea<select name="project" required><option value="">Choose a direction</option><option>Mobile App Development</option><option>Full-Stack Web System</option><option>IT Support/Networking setup</option></select></label>
+            <button class="sheet-submit" type="submit">Send Message via WhatsApp / Email <span>↗</span></button>
+          </form>
+        </aside>
 
         <nav class="bottom-nav" aria-label="App navigation">
           <a class="active" href="#home"><Icon name="home" size={19} /><span>Home</span></a>
@@ -153,5 +200,37 @@ const techBadges = ["Flutter", "Astro", "React", "Laravel"];
   .signal-card { padding: 16px 16px 13px; border: 1px solid #2b2b46; border-radius: 17px; background: linear-gradient(120deg, rgba(33,32,59,.9), rgba(20,21,37,.9)); box-shadow: inset 0 1px rgba(255,255,255,.05); }.signal-top, .signal-bottom { display: flex; justify-content: space-between; color: #77768d; font: 8px var(--mono); letter-spacing: .09em; }.signal-live { color: #5fe8bd; }.signal-live i { display: inline-block; width: 4px; height: 4px; margin-left: 4px; border-radius: 50%; background: #5fe8bd; }.signal-value { margin: 5px 0 0; font: 800 32px/1 "Bricolage Grotesque"; letter-spacing: -.05em; }.signal-value span { color: #8e86ff; font-size: 17px; }.signal-bottom { margin-top: 3px; letter-spacing: 0; }.signal-up { color: #5fe8bd; }.signal-bars { display: flex; align-items: end; gap: 4px; height: 26px; margin-top: 8px; }.signal-bars i { flex: 1; height: 30%; border-radius: 4px 4px 1px 1px; background: linear-gradient(#8278ff, #4b43bd); opacity: .65; }.signal-bars i:nth-child(2) { height: 43%; }.signal-bars i:nth-child(3) { height: 32%; }.signal-bars i:nth-child(4) { height: 56%; }.signal-bars i:nth-child(5) { height: 47%; }.signal-bars i:nth-child(6) { height: 68%; }.signal-bars i:nth-child(7) { height: 61%; }.signal-bars i:nth-child(8) { height: 78%; }.signal-bars i:nth-child(9) { height: 66%; }.signal-bars i:nth-child(10) { height: 88%; }.signal-bars i:nth-child(11) { height: 74%; }.signal-bars i:nth-child(12) { height: 100%; background: linear-gradient(#55e5be, #3a9f9a); opacity: 1; }
   .projects-section { padding-top: 30px; }.section-heading { display: flex; align-items: end; justify-content: space-between; margin-bottom: 15px; }.section-heading h2, .contact-card h2 { margin-top: 6px; font: 800 24px/1 "Bricolage Grotesque"; letter-spacing: -.04em; }.section-heading > a { color: #9c95ff; font: 10px var(--mono); }.section-heading > a span { font-size: 13px; }.project-list { display: flex; flex-direction: column; gap: 13px; }.project-card { padding: 9px; border: 1px solid #292a40; border-radius: 16px; background: #151624; }.project-visual { position: relative; height: 124px; overflow: hidden; border-radius: 10px; background: #20213a; }.project-visual :global(svg), .project-visual :global(img) { width: 100%; height: 100%; object-fit: cover; }.project-index { position: absolute; top: 9px; right: 9px; padding: 4px 7px; border-radius: 6px; background: rgba(7,8,17,.65); color: #aaa4ff; font: 9px var(--mono); }.project-meta { display: flex; justify-content: space-between; gap: 8px; padding: 10px 4px 5px; }.project-meta h3 { font: 700 14px/1.2 "Bricolage Grotesque"; }.project-meta p { display: -webkit-box; overflow: hidden; margin-top: 4px; color: #858498; font-size: 10px; line-height: 1.45; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }.project-arrow { color: #8f86ff; font-size: 18px; }.badge-row { display: flex; gap: 5px; padding: 0 4px 2px; }.badge-row span { padding: 4px 7px; border: 1px solid #35354a; border-radius: 5px; color: #9f9db1; font: 8px var(--mono); }  .detail-section { padding-top: 34px; scroll-margin-top: 18px; }.detail-section h2 { margin: 8px 0 12px; font: 800 25px/1.05 "Bricolage Grotesque"; letter-spacing: -.04em; }.detail-section > p:not(.section-kicker) { color: #a6a5b7; font-size: 11px; line-height: 1.65; margin: 0 0 10px; }.section-nav { display: flex; gap: 14px; margin: -14px 0 23px; overflow-x: auto; scrollbar-width: none; }.section-nav::-webkit-scrollbar { display: none; }.section-nav a { flex: 0 0 auto; color: #77768d; font: 9px var(--mono); }.section-nav a:first-child { color: #a29aff; }.code-card { overflow-x: auto; margin: 17px 0; padding: 15px; border: 1px solid #2c2b47; border-radius: 14px; background: #10111c; color: #aaa8c4; font: 9px/1.65 var(--mono); }.code-key { color: #a69dff; }.code-prop { color: #64dcc2; }.code-string { color: #e7b784; }.quick-facts { display: grid; gap: 8px; }.quick-facts span { display: grid; grid-template-columns: 78px 1fr; color: #a6a5b7; font-size: 10px; }.quick-facts b { color: #737289; font: 8px var(--mono); text-transform: uppercase; }.service-grid { display: grid; gap: 9px; }.service-card { padding: 13px; border: 1px solid #292a40; border-radius: 14px; background: #151624; }.service-card > span { color: #8f86ff; font: 9px var(--mono); }.service-card h3 { margin-top: 9px; font: 700 14px "Bricolage Grotesque"; }.service-card p { margin: 5px 0 8px; color: #9291a3; font-size: 10px; line-height: 1.5; }.service-card small { color: #67d8c0; font: 8px var(--mono); }.timeline { border-left: 1px solid #373554; margin: 19px 0 0 4px; padding-left: 17px; }.timeline-item { position: relative; padding-bottom: 20px; }.timeline-item::before { content: ""; position: absolute; width: 7px; height: 7px; left: -21px; top: 4px; border: 2px solid #7970ff; border-radius: 50%; background: #0c0d17; }.timeline-item time, .education p { color: #8f86ff; font: 9px var(--mono); }.timeline-item h3 { margin-top: 6px; font: 700 14px "Bricolage Grotesque"; }.timeline-item strong { display: block; margin-top: 3px; color: #67d8c0; font: 9px var(--mono); }.timeline-item p { margin-top: 7px; color: #9695a7; font-size: 10px; line-height: 1.55; }.education { padding: 15px; border-radius: 14px; background: #151624; }.education p:not(.section-kicker) { margin-top: 9px; color: #a6a5b7; font-size: 10px; line-height: 1.4; }.education p b { display: inline-block; width: 76px; color: #8f86ff; font: 8px var(--mono); }.skill-groups { display: grid; gap: 14px; }.skill-group > b { display: block; margin-bottom: 7px; color: #858398; font: 9px var(--mono); text-transform: uppercase; letter-spacing: .08em; }.skill-group > div { display: flex; flex-wrap: wrap; gap: 5px; }.skill-group span { padding: 6px 8px; border: 1px solid #34334b; border-radius: 7px; color: #bbb9c9; font-size: 9px; }.contact-card { margin-top: 29px; padding: 20px 17px; border: 1px solid #39335f; border-radius: 18px; background: radial-gradient(circle at 100% 0, rgba(98,85,255,.25), transparent 55%), #19182b; }.contact-card h2 { font-size: 27px; }.contact-card > p:not(.section-kicker) { max-width: 260px; margin: 10px 0 17px; color: #aaa8b9; font-size: 11px; line-height: 1.6; }.contact-link { color: #b1aaff; font: 600 10px var(--mono); }.bottom-nav {
  position: sticky; bottom: 0; z-index: 2; flex: 0 0 auto; display: flex; justify-content: space-around; padding: 11px 22px 19px; background: rgba(15,15,27,.9); border-top: 1px solid #26263a; backdrop-filter: blur(18px); }.bottom-nav a { display: flex; min-width: 65px; flex-direction: column; align-items: center; gap: 4px; color: #69687e; font-size: 9px; }.bottom-nav a.active { color: #a29aff; }.bottom-nav a.active :global(svg) { filter: drop-shadow(0 0 6px #7065ff); }.home-indicator { position: absolute; bottom: 7px; left: 50%; width: 94px; height: 4px; transform: translateX(-50%); border-radius: 99px; background: #eeeef5; opacity: .8; z-index: 3; }.stage-caption { position: absolute; bottom: 24px; display: flex; align-items: center; gap: 9px; color: #68677b; font: 9px var(--mono); letter-spacing: .08em; text-transform: uppercase; }.caption-dot { width: 5px; height: 5px; border-radius: 50%; background: #7166ff; }.caption-line { width: 32px; height: 1px; background: #323247; }
+  .project-actions { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 4px 3px; }.project-action { padding: 7px 8px; border: 1px solid #38384f; border-radius: 8px; color: #aaa6c6; font: 8px var(--mono); transition: border-color .2s, color .2s, background .2s; }.project-action:hover { border-color: #8278ff; color: #fff; background: rgba(112,101,255,.12); }.project-action-primary { border-color: #6258d5; color: #d8d5ff; background: rgba(112,101,255,.16); }.repository-drawer { margin-top: 14px; border: 1px solid #282940; border-radius: 14px; background: rgba(21,22,36,.7); overflow: hidden; }.repository-drawer summary { display: flex; justify-content: space-between; padding: 13px 14px; cursor: pointer; color: #c1baff; font: 10px var(--mono); list-style: none; }.repository-drawer summary::-webkit-details-marker { display: none; }.repository-drawer summary span { font-size: 16px; line-height: 10px; color: #8880ff; }.repository-list { border-top: 1px solid #292a40; padding: 4px 14px 8px; }.repository-list a { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid rgba(52,53,74,.5); color: #9d9bb3; font-size: 10px; }.repository-list a:last-child { border-bottom: 0; }.pipeline-section { padding-top: 36px; }.pipeline-status { color: #77768d; font: 8px var(--mono); }.pipeline-list { display: grid; gap: 9px; }.pipeline-step { display: grid; grid-template-columns: 32px 1fr; gap: 11px; padding: 12px; border: 1px solid #2b2c43; border-radius: 13px; background: linear-gradient(135deg, rgba(35,35,62,.8), rgba(18,19,32,.8)); }.pipeline-number { display: grid; place-items: center; width: 27px; height: 27px; border: 1px solid #6158d4; border-radius: 9px; color: #aaa4ff; font: 9px var(--mono); }.pipeline-step h3 { font: 700 12px/1.2 "Bricolage Grotesque"; }.pipeline-step p { margin-top: 5px; color: #88879d; font-size: 10px; line-height: 1.5; }.contact-link { border: 0; cursor: pointer; text-align: left; }.contact-sheet-backdrop { position: absolute; inset: 0; z-index: 4; background: rgba(3,4,10,.58); backdrop-filter: blur(5px); }.contact-sheet { position: absolute; right: 0; bottom: 0; left: 0; z-index: 5; padding: 25px 22px 32px; border-top: 1px solid #49456e; border-radius: 25px 25px 0 0; background: linear-gradient(145deg, #242344, #10111e 72%); box-shadow: 0 -18px 50px rgba(0,0,0,.48); transform: translateY(105%); transition: transform .3s ease-out; }.contact-sheet.is-open { transform: translateY(0); }.sheet-handle { position: absolute; top: 9px; left: 50%; width: 38px; height: 4px; border-radius: 99px; background: #777391; transform: translateX(-50%); }.sheet-close { position: absolute; top: 13px; right: 17px; width: 28px; height: 28px; border: 1px solid #464464; border-radius: 50%; background: rgba(255,255,255,.04); color: #d7d4ec; font-size: 20px; line-height: 1; cursor: pointer; }.contact-sheet h2 { margin: 7px 0 7px; font: 800 24px/1 "Bricolage Grotesque"; letter-spacing: -.04em; }.sheet-copy { max-width: 285px; margin-bottom: 15px; color: #a5a3b7; font-size: 11px; line-height: 1.5; }.contact-form { display: grid; gap: 10px; }.contact-form label { display: grid; gap: 5px; color: #aaa7bf; font: 9px var(--mono); }.contact-form input, .contact-form select { width: 100%; border: 1px solid #3a3a56; border-radius: 9px; padding: 10px 11px; outline: none; background: rgba(6,7,16,.38); color: #f4f3fa; font: 11px var(--sans); }.contact-form input:focus, .contact-form select:focus { border-color: #8178ff; box-shadow: 0 0 0 3px rgba(112,101,255,.13); }.sheet-submit { margin-top: 3px; border: 0; border-radius: 10px; padding: 12px 13px; background: linear-gradient(100deg, #7065ff, #9a6dff); color: #fff; cursor: pointer; font: 700 10px var(--mono); box-shadow: 0 9px 23px rgba(112,101,255,.28); }.sheet-submit span { margin-left: 5px; }.phone-screen.sheet-open .bottom-nav { filter: blur(3px); pointer-events: none; }
   @media (max-width: 600px) { .portfolio-stage { padding: 0 0 32px; display: block; min-height: 100svh; }.phone-shell { width: 100%; padding: 0; border-radius: 0; background: #0c0d17; box-shadow: none; }.phone-screen { height: 100svh; min-height: 100svh; max-height: none; border: 0; border-radius: 0; }.phone-button, .stage-caption { display: none; }.app-content { min-height: 0; padding-left: 22px; padding-right: 22px; }.bottom-nav { position: sticky; bottom: 0; } }
 </style>
+
+<script define:vars={{ email: site.email }}>
+  const phoneScreen = document.querySelector('.phone-screen');
+  const contactSheet = document.querySelector('[data-contact-sheet]');
+  const contactBackdrop = document.querySelector('[data-contact-backdrop]');
+  const openContact = document.querySelector('[data-open-contact]');
+  const closeContact = document.querySelector('[data-close-contact]');
+  const contactForm = document.querySelector('[data-contact-form]');
+
+  const setContactOpen = (isOpen) => {
+    contactSheet?.classList.toggle('is-open', isOpen);
+    phoneScreen?.classList.toggle('sheet-open', isOpen);
+    if (contactBackdrop) contactBackdrop.hidden = !isOpen;
+    contactSheet?.setAttribute('aria-hidden', String(!isOpen));
+    if (isOpen) contactSheet?.querySelector('input')?.focus();
+  };
+
+  openContact?.addEventListener('click', () => setContactOpen(true));
+  closeContact?.addEventListener('click', () => setContactOpen(false));
+  contactBackdrop?.addEventListener('click', () => setContactOpen(false));
+  document.addEventListener('keydown', (event) => { if (event.key === 'Escape') setContactOpen(false); });
+  contactForm?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const form = new FormData(contactForm);
+    const name = String(form.get('name') || '');
+    const project = String(form.get('project') || '');
+    const subject = encodeURIComponent(`Project enquiry from ${name}`);
+    const body = encodeURIComponent(`Hi John, I would like to discuss ${project}.`);
+    window.location.href = `mailto:${site.email}?subject=${subject}&body=${body}`;
+  });
+</script>
