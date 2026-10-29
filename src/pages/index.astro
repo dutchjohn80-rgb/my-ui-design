@@ -1,106 +1,105 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import RoadCar from "../components/RoadCar.astro";
-import SystemMap from "../components/SystemMap.astro";
 import ProjectArt from "../components/ProjectArt.astro";
 import Icon from "../components/Icon.astro";
-import Cta from "../components/Cta.astro";
-import { services, projects, tools, process } from "../data/site";
+import { projects, site } from "../data/site";
 
-const topServices = services.slice(0, 3);
-const featured = projects[0];
+const featured = projects.slice(0, 3);
+const techBadges = ["Flutter", "Astro", "React", "Laravel"];
 ---
 
-<Layout title="Full-stack developer and IT trainer in Arusha">
-  <div class="hero-wrap">
-    <section class="wrap hero-grid">
-      <div class="hero-copy">
-        <p class="eyebrow">Full-stack developer • IT trainer • systems support</p>
-        <h1>I build digital tools that help people work smarter and faster.</h1>
-        <p class="lead">
-          I’m John Dutch, a full-stack developer and IT trainer in Arusha. I help
-          businesses and organisations launch websites, manage data systems, support
-          their networks, and train teams to keep growing.
-        </p>
-        <div class="actions">
-          <a class="btn primary" href="/services">See my services</a>
-          <a class="btn outline" href="/contact">Contact me</a>
+<Layout title="Mobile app developer portfolio in Arusha" description="A premium mobile app developer portfolio for John Dutch, building Flutter, React and full-stack digital products.">
+  <main class="portfolio-stage">
+    <div class="stage-glow stage-glow-one"></div>
+    <div class="stage-glow stage-glow-two"></div>
+
+    <section class="phone-shell" aria-label="John Dutch mobile portfolio app">
+      <div class="phone-button phone-button-left"></div>
+      <div class="phone-button phone-button-right"></div>
+      <div class="phone-screen">
+        <div class="status-bar" aria-hidden="true">
+          <span>9:41</span>
+          <span class="status-icons"><span></span><span></span><span></span></span>
         </div>
+
+        <div class="app-content">
+          <header class="app-header">
+            <a class="app-brand" href="#home" aria-label="John Dutch home">
+              <span class="brand-mark">JD</span>
+              <span><strong>John Dutch</strong><small>Product engineer</small></span>
+            </a>
+            <button class="avatar" type="button" aria-label="Available for new projects">JD<span class="online-dot"></span></button>
+          </header>
+
+          <section class="app-hero" id="home">
+            <p class="section-kicker"><span class="pulse"></span> Available for select projects</p>
+            <h1>Digital products<br /><em>with purpose.</em></h1>
+            <p class="hero-copy">I design and build mobile experiences that feel effortless, perform beautifully, and help ambitious teams move forward.</p>
+            <div class="hero-actions">
+              <a class="hero-cta" href="#projects">Explore work <span>↗</span></a>
+              <a class="play-link" href="#about" aria-label="Learn more about John Dutch"><span class="play">▶</span> About me</a>
+            </div>
+          </section>
+
+          <section class="signal-card" id="about" aria-label="Development metrics">
+            <div class="signal-top"><span>BUILD SIGNAL</span><span class="signal-live">LIVE <i></i></span></div>
+            <div class="signal-value">98<span>%</span></div>
+            <div class="signal-bottom"><span>Client satisfaction</span><span class="signal-up">+12.4%</span></div>
+            <div class="signal-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </section>
+
+          <section class="projects-section" id="projects">
+            <div class="section-heading"><div><p class="section-kicker">SELECTED WORK</p><h2>Built for impact.</h2></div><a href="/projects">View all <span>↗</span></a></div>
+            <div class="project-list">
+              {featured.map((project, index) => (
+                <article class:list={["project-card", index === 0 && "project-card-featured"]}>
+                  <div class="project-visual"><ProjectArt kind={project.kind} label={project.title} /><span class="project-index">0{index + 1}</span></div>
+                  <div class="project-meta"><div><h3>{project.title}</h3><p>{project.summary}</p></div><span class="project-arrow">↗</span></div>
+                  <div class="badge-row">{techBadges.slice(index, index + 3).map((badge) => <span>{badge}</span>)}</div>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section class="contact-card" id="contact">
+            <p class="section-kicker">LET&apos;S BUILD SOMETHING</p>
+            <h2>Have a big idea?</h2>
+            <p>Tell me where you want to go. I&apos;ll help you find the clearest path there.</p>
+            <a href={`mailto:${site.email}`} class="contact-link">Start a conversation <span>↗</span></a>
+          </section>
+        </div>
+
+        <nav class="bottom-nav" aria-label="App navigation">
+          <a class="active" href="#home"><Icon name="home" size={19} /><span>Home</span></a>
+          <a href="#projects"><Icon name="grid" size={19} /><span>Projects</span></a>
+          <a href="#contact"><Icon name="mail" size={19} /><span>Contact</span></a>
+        </nav>
+        <div class="home-indicator" aria-hidden="true"></div>
       </div>
-      <SystemMap />
     </section>
 
-    <section class="wrap" aria-label="Quick facts about the kind of work I do">
-      <div class="stats-row">
-        <div class="stat">
-          <strong>6+</strong>
-          <span>core service areas</span>
-        </div>
-        <div class="stat">
-          <strong>100%</strong>
-          <span>mobile-friendly builds</span>
-        </div>
-        <div class="stat">
-          <strong>Hands-on</strong>
-          <span>training and support</span>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <section class="wrap" aria-label="Tools I work with">
-    <div class="chips">{tools.map((t) => <span class="chip">{t}</span>)}</div>
-  </section>
-
-  <section class="wrap section">
-    <div class="head">
-      <h2>What I do</h2>
-      <a class="more" href="/services">All services</a>
-    </div>
-    <div class="bento three">
-      {
-        topServices.map((s) => (
-          <a class="tile" href="/services">
-            <span class="ico"><Icon name={s.icon} size={24} /></span>
-            <h3>{s.title}</h3>
-            <p>{s.summary}</p>
-          </a>
-        ))
-      }
-    </div>
-  </section>
-
-  <RoadCar title="One of my projects tracks vehicles in real time." />
-
-  <section class="wrap section">
-    <div class="head">
-      <h2>Featured project</h2>
-      <a class="more" href="/projects">All projects</a>
-    </div>
-    <div class="showcase" style="border-top:0;padding-top:0">
-      <div class="art"><ProjectArt kind={featured.kind} label={featured.title} /></div>
-      <div class="info">
-        <h3>{featured.title}</h3>
-        <p>{featured.summary}</p>
-        <p class="stack">{featured.stack}</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="wrap section">
-    <h2>How we would work together</h2>
-    <div class="steps">
-      {
-        process.map((p, i) => (
-          <div class="step">
-            <span class="num">{i + 1}</span>
-            <h3>{p.title}</h3>
-            <p>{p.text}</p>
-          </div>
-        ))
-      }
-    </div>
-  </section>
-
-  <Cta />
+    <div class="stage-caption"><span class="caption-dot"></span> Interactive portfolio experience <span class="caption-line"></span> Designed &amp; developed by John Dutch</div>
+  </main>
 </Layout>
+
+<style>
+  :global(body) { background: #070811; color: #f4f3fa; }
+  :global(.bar), :global(.footer) { display: none; }
+  .portfolio-stage { min-height: 100vh; position: relative; overflow: hidden; display: grid; place-items: center; padding: 48px 20px 72px; background: radial-gradient(circle at 50% 45%, #20204a 0%, #0d0e1d 38%, #070811 72%); }
+  .stage-glow { position: absolute; border-radius: 999px; filter: blur(2px); pointer-events: none; }
+  .stage-glow-one { width: 340px; height: 340px; background: #5d4bff; opacity: .15; top: 8%; left: 8%; }
+  .stage-glow-two { width: 420px; height: 420px; background: #12d9c5; opacity: .08; bottom: -20%; right: -4%; }
+  .phone-shell { width: min(100%, 430px); position: relative; padding: 11px; border-radius: 54px; background: linear-gradient(135deg, #5d5b6c, #171824 22%, #343443 52%, #0b0c12 85%); box-shadow: 0 45px 100px rgba(0,0,0,.65), 0 0 0 1px rgba(255,255,255,.22), inset 0 0 0 2px rgba(255,255,255,.18); z-index: 1; }
+  .phone-screen { min-height: 760px; max-height: 80vh; overflow: hidden; position: relative; border-radius: 44px; background: #0c0d17; border: 2px solid #05060a; }
+  .phone-screen::after { content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit; box-shadow: inset 0 0 30px rgba(0,0,0,.4); }
+  .phone-button { position: absolute; width: 4px; border-radius: 4px 0 0 4px; background: #444452; z-index: -1; }
+  .phone-button-left { height: 62px; left: -3px; top: 130px; }.phone-button-right { height: 104px; right: -3px; top: 164px; border-radius: 0 4px 4px 0; }
+  .status-bar { height: 38px; padding: 13px 27px 0; display: flex; align-items: center; justify-content: space-between; font: 600 11px var(--mono); color: #f1effa; }
+  .status-icons { display: flex; gap: 4px; align-items: center; }.status-icons span { display: block; width: 12px; height: 7px; border-radius: 2px; background: #eeeefa; opacity: .9; }.status-icons span:nth-child(2) { width: 13px; border-radius: 8px; }.status-icons span:last-child { width: 17px; border: 1px solid #eeeefa; background: transparent; }
+  .app-content { height: calc(100vh - 170px); max-height: 705px; overflow-y: auto; padding: 6px 22px 100px; scrollbar-width: none; }.app-content::-webkit-scrollbar { display: none; }
+  .app-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 34px; }.app-brand { display: flex; align-items: center; gap: 10px; }.brand-mark { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 10px; background: linear-gradient(135deg, #8a7dff, #5143dc); font: 800 11px var(--mono); color: white; box-shadow: 0 5px 18px rgba(112,95,255,.3); }.app-brand strong { display: block; font: 700 14px/1.1 "Bricolage Grotesque", sans-serif; }.app-brand small { color: #85849b; font-size: 9px; }.avatar { position: relative; width: 32px; height: 32px; border: 1px solid #39394d; border-radius: 50%; background: #1d1d2c; color: #aaa4ff; font: 600 10px var(--mono); }.online-dot { position: absolute; right: -1px; bottom: 0; width: 8px; height: 8px; border-radius: 50%; background: #42e8b5; border: 2px solid #0c0d17; }
+  .app-hero { padding: 4px 2px 26px; }.section-kicker { color: #918bff; font: 600 9px var(--mono); letter-spacing: .14em; }.pulse { display: inline-block; width: 6px; height: 6px; margin-right: 6px; border-radius: 50%; background: #41e3b1; box-shadow: 0 0 0 4px rgba(65,227,177,.12); }.app-hero h1 { margin: 15px 0 14px; font: 800 clamp(37px, 9vw, 48px)/.99 "Bricolage Grotesque", sans-serif; letter-spacing: -.06em; }.app-hero h1 em { color: #8f86ff; font-style: normal; }.hero-copy { max-width: 330px; color: #a6a5b7; font-size: 13px; line-height: 1.6; }.hero-actions { display: flex; align-items: center; gap: 15px; margin-top: 23px; }.hero-cta { padding: 11px 16px; border-radius: 12px; background: #7065ff; color: white; font-size: 11px; font-weight: 700; box-shadow: 0 8px 22px rgba(112,101,255,.24); }.hero-cta span, .contact-link span { margin-left: 7px; font-size: 15px; }.play-link { display: flex; align-items: center; gap: 7px; color: #bab8c9; font-size: 11px; }.play { display: grid; place-items: center; width: 23px; height: 23px; padding-left: 1px; border: 1px solid #45445b; border-radius: 50%; color: #aaa4ff; font-size: 8px; }
+  .signal-card { padding: 16px 16px 13px; border: 1px solid #2b2b46; border-radius: 17px; background: linear-gradient(120deg, rgba(33,32,59,.9), rgba(20,21,37,.9)); box-shadow: inset 0 1px rgba(255,255,255,.05); }.signal-top, .signal-bottom { display: flex; justify-content: space-between; color: #77768d; font: 8px var(--mono); letter-spacing: .09em; }.signal-live { color: #5fe8bd; }.signal-live i { display: inline-block; width: 4px; height: 4px; margin-left: 4px; border-radius: 50%; background: #5fe8bd; }.signal-value { margin: 5px 0 0; font: 800 32px/1 "Bricolage Grotesque"; letter-spacing: -.05em; }.signal-value span { color: #8e86ff; font-size: 17px; }.signal-bottom { margin-top: 3px; letter-spacing: 0; }.signal-up { color: #5fe8bd; }.signal-bars { display: flex; align-items: end; gap: 4px; height: 26px; margin-top: 8px; }.signal-bars i { flex: 1; height: 30%; border-radius: 4px 4px 1px 1px; background: linear-gradient(#8278ff, #4b43bd); opacity: .65; }.signal-bars i:nth-child(2) { height: 43%; }.signal-bars i:nth-child(3) { height: 32%; }.signal-bars i:nth-child(4) { height: 56%; }.signal-bars i:nth-child(5) { height: 47%; }.signal-bars i:nth-child(6) { height: 68%; }.signal-bars i:nth-child(7) { height: 61%; }.signal-bars i:nth-child(8) { height: 78%; }.signal-bars i:nth-child(9) { height: 66%; }.signal-bars i:nth-child(10) { height: 88%; }.signal-bars i:nth-child(11) { height: 74%; }.signal-bars i:nth-child(12) { height: 100%; background: linear-gradient(#55e5be, #3a9f9a); opacity: 1; }
+  .projects-section { padding-top: 30px; }.section-heading { display: flex; align-items: end; justify-content: space-between; margin-bottom: 15px; }.section-heading h2, .contact-card h2 { margin-top: 6px; font: 800 24px/1 "Bricolage Grotesque"; letter-spacing: -.04em; }.section-heading > a { color: #9c95ff; font: 10px var(--mono); }.section-heading > a span { font-size: 13px; }.project-list { display: flex; flex-direction: column; gap: 13px; }.project-card { padding: 9px; border: 1px solid #292a40; border-radius: 16px; background: #151624; }.project-visual { position: relative; height: 124px; overflow: hidden; border-radius: 10px; background: #20213a; }.project-visual :global(svg), .project-visual :global(img) { width: 100%; height: 100%; object-fit: cover; }.project-index { position: absolute; top: 9px; right: 9px; padding: 4px 7px; border-radius: 6px; background: rgba(7,8,17,.65); color: #aaa4ff; font: 9px var(--mono); }.project-meta { display: flex; justify-content: space-between; gap: 8px; padding: 10px 4px 5px; }.project-meta h3 { font: 700 14px/1.2 "Bricolage Grotesque"; }.project-meta p { display: -webkit-box; overflow: hidden; margin-top: 4px; color: #858498; font-size: 10px; line-height: 1.45; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }.project-arrow { color: #8f86ff; font-size: 18px; }.badge-row { display: flex; gap: 5px; padding: 0 4px 2px; }.badge-row span { padding: 4px 7px; border: 1px solid #35354a; border-radius: 5px; color: #9f9db1; font: 8px var(--mono); }.contact-card { margin-top: 29px; padding: 20px 17px; border: 1px solid #39335f; border-radius: 18px; background: radial-gradient(circle at 100% 0, rgba(98,85,255,.25), transparent 55%), #19182b; }.contact-card h2 { font-size: 27px; }.contact-card > p:not(.section-kicker) { max-width: 260px; margin: 10px 0 17px; color: #aaa8b9; font-size: 11px; line-height: 1.6; }.contact-link { color: #b1aaff; font: 600 10px var(--mono); }.bottom-nav { position: absolute; right: 0; bottom: 0; left: 0; z-index: 2; display: flex; justify-content: space-around; padding: 11px 22px 19px; background: rgba(15,15,27,.9); border-top: 1px solid #26263a; backdrop-filter: blur(18px); }.bottom-nav a { display: flex; min-width: 65px; flex-direction: column; align-items: center; gap: 4px; color: #69687e; font-size: 9px; }.bottom-nav a.active { color: #a29aff; }.bottom-nav a.active :global(svg) { filter: drop-shadow(0 0 6px #7065ff); }.home-indicator { position: absolute; bottom: 7px; left: 50%; width: 94px; height: 4px; transform: translateX(-50%); border-radius: 99px; background: #eeeef5; opacity: .8; z-index: 3; }.stage-caption { position: absolute; bottom: 24px; display: flex; align-items: center; gap: 9px; color: #68677b; font: 9px var(--mono); letter-spacing: .08em; text-transform: uppercase; }.caption-dot { width: 5px; height: 5px; border-radius: 50%; background: #7166ff; }.caption-line { width: 32px; height: 1px; background: #323247; }
+  @media (max-width: 600px) { .portfolio-stage { padding: 0 0 32px; display: block; min-height: 100svh; }.phone-shell { width: 100%; padding: 0; border-radius: 0; background: #0c0d17; box-shadow: none; }.phone-screen { min-height: 100svh; max-height: none; border: 0; border-radius: 0; }.phone-button, .stage-caption { display: none; }.app-content { height: calc(100svh - 38px); max-height: none; padding-left: 22px; padding-right: 22px; }.bottom-nav { position: fixed; bottom: 0; } }
+</style>
